@@ -1,3 +1,4 @@
+const API_URL = "https://brainvault-api.onrender.com";
 import type {
   Analytics,
   BrainTask,
@@ -195,7 +196,7 @@ export async function uploadDocument(
   formData.append("file", file);
 
   const response = await fetch(
-    "http://localhost:5000/upload",
+    `${API_URL}/upload`,
     {
       method: "POST",
       body: formData,
@@ -237,7 +238,7 @@ export async function askBrain(
 ): Promise<Message & { conversation_id?: string }> {
 
   const response = await fetch(
-    "http://localhost:5000/chat",
+    `${API_URL}/chat`,
     {
       method: "POST",
       headers: {
@@ -271,7 +272,7 @@ export async function getAnalytics(): Promise<Analytics> {
 }
 
 export async function getDocuments(): Promise<CompanyDocument[]> {
-  const response = await fetch("http://localhost:5000/documents");
+  const response = await fetch(`${API_URL}/documents`);
   if (!response.ok) {
     throw new Error("Failed to fetch documents.");
   }
@@ -279,7 +280,7 @@ export async function getDocuments(): Promise<CompanyDocument[]> {
 }
 
 export async function syncKnowledge(): Promise<{ status: string; message: string; synced_files: string[] }> {
-  const response = await fetch("http://localhost:5000/sync", {
+  const response = await fetch(`${API_URL}/sync`, {
     method: "POST",
   });
   if (!response.ok) {
@@ -289,7 +290,7 @@ export async function syncKnowledge(): Promise<{ status: string; message: string
 }
 
 export async function deleteDocument(id: string): Promise<void> {
-  const response = await fetch(`http://localhost:5000/documents/${encodeURIComponent(id)}`, {
+  const response = await fetch(`${API_URL}/documents/${encodeURIComponent(id)}`, {
     method: "DELETE",
   });
   if (!response.ok) {
@@ -304,7 +305,7 @@ export interface Conversation {
 }
 
 export async function getConversations(): Promise<Conversation[]> {
-  const response = await fetch("http://localhost:5000/conversations");
+  const response = await fetch(`${API_URL}/conversations`);
   if (!response.ok) {
     throw new Error("Failed to fetch conversations.");
   }
@@ -312,7 +313,7 @@ export async function getConversations(): Promise<Conversation[]> {
 }
 
 export async function getConversationMessages(id: string): Promise<Message[]> {
-  const response = await fetch(`http://localhost:5000/conversations/${encodeURIComponent(id)}/messages`);
+  const response = await fetch(`${API_URL}/conversations/${encodeURIComponent(id)}/messages`);
   if (!response.ok) {
     throw new Error("Failed to fetch conversation messages.");
   }
@@ -320,7 +321,7 @@ export async function getConversationMessages(id: string): Promise<Message[]> {
 }
 
 export async function deleteConversation(id: string): Promise<void> {
-  const response = await fetch(`http://localhost:5000/conversations/${encodeURIComponent(id)}`, {
+  const response = await fetch(`${API_URL}/conversations/${encodeURIComponent(id)}`, {
     method: "DELETE",
   });
   if (!response.ok) {
