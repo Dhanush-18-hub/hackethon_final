@@ -166,7 +166,7 @@ export default function LoginPage() {
 
         {/* Footer info */}
         <div className="text-xs text-slate-500 flex justify-between">
-          <span>© 2026 AI Company Brain</span>
+          <span>© 2026 BrainVault</span>
           <span className="flex gap-3">
             <span className="hover:underline cursor-pointer">Security</span>
             <span className="hover:underline cursor-pointer">Privacy</span>

@@ -51,7 +51,7 @@ os.makedirs(TEXT_FOLDER, exist_ok=True)
 
 @app.route("/")
 def home():
-    return {"message": "AI Company Brain API Running"}
+    return {"message": "BrainVault API Running"}
 
 
 @app.route("/upload", methods=["POST"])
@@ -146,7 +146,7 @@ def chat():
         prompt = f"""
 # SYSTEM PROMPT — Enterprise Knowledge AI (High-Precision RAG Assistant)
 
-You are AI Company Brain (BrainVault), an advanced Enterprise AI Knowledge Assistant.
+You are BrainVault, an advanced Enterprise AI Knowledge Assistant.
 
 Your primary objective is to answer user questions by reasoning over uploaded documents with extremely high precision, factual accuracy, and minimal hallucination.
 

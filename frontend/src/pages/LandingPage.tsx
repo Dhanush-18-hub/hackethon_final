@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   BrainCircuit,
   Search,
@@ -22,6 +22,7 @@ import {
 export default function LandingPage() {
   const navigate = useNavigate();
   const [activeUseCase, setActiveUseCase] = useState("Product");
+  const [showLoader, setShowLoader] = useState(true);
 
   const useCases = {
     HR: {
@@ -31,7 +32,7 @@ export default function LandingPage() {
       points: ["Instant handbook searching", "Automated vacation balance lookups", "Personalized benefits guidance"],
       previewContent: {
         query: "What is our policy on remote work and stipend?",
-        response: "AI Company Brain: Employees can work remotely up to 3 days a week. A $500 annual home office stipend is available. Submit invoices via ExpenseBot by December 15th.",
+        response: "BrainVault: Employees can work remotely up to 3 days a week. A $500 annual home office stipend is available. Submit invoices via ExpenseBot by December 15th.",
         sources: ["HR Handbook 2026.pdf", "Remote Work Policy v2"]
       }
     },
@@ -42,7 +43,7 @@ export default function LandingPage() {
       points: ["Q3 planning synthesis", "Vendor payment term lookups", "Audit trial document queries"],
       previewContent: {
         query: "Find the payment terms for vendor Stripe Inc.",
-        response: "AI Company Brain: Net 30 terms apply to all Stripe licensing fees, billed monthly on the 1st. Invoices should be directed to billing@company.ai.",
+        response: "BrainVault: Net 30 terms apply to all Stripe licensing fees, billed monthly on the 1st. Invoices should be directed to billing@company.ai.",
         sources: ["Stripe Master Service Agreement.pdf"]
       }
     },
@@ -53,7 +54,7 @@ export default function LandingPage() {
       points: ["Automated PRD outline generation", "Feature dependency mapping", "Customer support feedback grouping"],
       previewContent: {
         query: "What feature request is most common for the analytics dashboard?",
-        response: "AI Company Brain: PDF report exports is mentioned in 28 feedback logs, primarily from enterprise customers. It currently has a dependency on the Scheduled Jobs API task.",
+        response: "BrainVault: PDF report exports is mentioned in 28 feedback logs, primarily from enterprise customers. It currently has a dependency on the Scheduled Jobs API task.",
         sources: ["Customer Feedback Q2.csv", "Analytics Specs v4"]
       }
     },
@@ -64,7 +65,7 @@ export default function LandingPage() {
       points: ["Draft replies from internal wiki", "Identify duplicate tickets", "Automatic tag recommendation"],
       previewContent: {
         query: "How do we resolve error code 503 during DB sync?",
-        response: "AI Company Brain: Check the connection string format. If SSL is enabled, make sure the RDS root certificate is updated to v3. Restart the background worker pool.",
+        response: "BrainVault: Check the connection string format. If SSL is enabled, make sure the RDS root certificate is updated to v3. Restart the background worker pool.",
         sources: ["DB Sync Runbook.md", "Ops Escalation Log #42"]
       }
     },
@@ -75,7 +76,7 @@ export default function LandingPage() {
       points: ["RFP auto-fill assistance", "SLA & security requirement search", "Competitor matrix generation"],
       previewContent: {
         query: "Do we support SAML single sign-on and SCIM provisioning?",
-        response: "AI Company Brain: Yes. SAML 2.0 is supported via Okta, Azure AD, and Ping. SCIM 2.0 user provisioning is fully supported for enterprise plans.",
+        response: "BrainVault: Yes. SAML 2.0 is supported via Okta, Azure AD, and Ping. SCIM 2.0 user provisioning is fully supported for enterprise plans.",
         sources: ["Security Whitepaper 2026.docx", "SSO Configuration.md"]
       }
     },
@@ -86,7 +87,7 @@ export default function LandingPage() {
       points: ["Find liability caps", "Identify expiration date alerts", "Compare vendor agreements"],
       previewContent: {
         query: "What is the liability cap in the vendor agreement?",
-        response: "AI Company Brain: The liability cap is set at 1.5x the fees paid in the preceding 12 months, with mutual indemnification for data security breaches.",
+        response: "BrainVault: The liability cap is set at 1.5x the fees paid in the preceding 12 months, with mutual indemnification for data security breaches.",
         sources: ["Vendor Agreement (Final).pdf"]
       }
     }
@@ -94,7 +95,7 @@ export default function LandingPage() {
 
   const features = [
     {
-      title: "AI Company Search",
+      title: "BrainVault Search",
       description: "Ask natural language questions and get accurate answers with inline citations. Search across all databases instantly.",
       icon: Search,
       badge: "Semantic Search",
@@ -138,7 +139,71 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#07070C] text-slate-100 selection:bg-violet-500/30 selection:text-violet-200">
+    <>
+      <AnimatePresence mode="wait">
+        {showLoader && (
+          <motion.div
+            key="loader"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -40 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#05050A]"
+          >
+            <div className="absolute h-96 w-96 rounded-full bg-violet-600/10 blur-[100px] animate-pulse" />
+            <div className="absolute h-64 w-64 rounded-full bg-indigo-600/10 blur-[80px]" />
+            
+            <div className="relative flex items-center justify-center">
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ repeat: Infinity, duration: 2.5, ease: "linear" }}
+                className="absolute h-28 w-28 rounded-full border-2 border-t-violet-500 border-r-indigo-500 border-b-transparent border-l-transparent"
+              />
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ repeat: Infinity, duration: 3.5, ease: "linear" }}
+                className="absolute h-24 w-24 rounded-full border border-b-violet-400 border-l-indigo-400 border-t-transparent border-r-transparent opacity-65"
+              />
+              
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
+                className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600 to-indigo-500 shadow-xl shadow-violet-700/20"
+              >
+                <BrainCircuit className="text-white animate-pulse" size={28} />
+              </motion.div>
+            </div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+              className="mt-8 text-center"
+            >
+              <h1 className="text-3xl font-extrabold tracking-wider bg-gradient-to-r from-white via-slate-100 to-violet-300 bg-clip-text text-transparent">
+                BrainVault
+              </h1>
+              <p className="mt-2 text-xs uppercase tracking-[0.25em] text-zinc-500 font-semibold">
+                Initializing Knowledge Core
+              </p>
+            </motion.div>
+            
+            <div className="mt-8 w-56 h-1 rounded-full bg-white/5 overflow-hidden relative">
+              <motion.div
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 1.4, ease: "easeInOut" }}
+                className="absolute top-0 bottom-0 left-0 bg-gradient-to-r from-violet-500 to-indigo-500"
+                onAnimationComplete={() => {
+                  setTimeout(() => setShowLoader(false), 150);
+                }}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="min-h-screen bg-[#07070C] text-slate-100 selection:bg-violet-500/30 selection:text-violet-200 overflow-x-hidden">
       
       {/* Background Glows */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
@@ -194,31 +259,64 @@ export default function LandingPage() {
       {/* Hero Section */}
       <section className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          initial="hidden"
+          animate={showLoader ? "hidden" : "visible"}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+                delayChildren: 0.15
+              }
+            }
+          }}
         >
           {/* Tag / Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/30 bg-violet-950/20 text-xs font-medium text-violet-300 mb-6 backdrop-blur-sm">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 15 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+            }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/30 bg-violet-950/20 text-xs font-medium text-violet-300 mb-6 backdrop-blur-sm"
+          >
             <Sparkles size={12} className="text-violet-400 animate-pulse" />
             <span>Next-Generation Knowledge OS</span>
-          </div>
+          </motion.div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] max-w-5xl mx-auto">
+          <motion.h1
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+            }}
+            className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] max-w-5xl mx-auto"
+          >
             Your Company's Knowledge.{" "}
             <span className="block mt-2 bg-gradient-to-r from-violet-400 via-fuchsia-400 to-indigo-400 bg-clip-text text-transparent">
               Instantly Searchable. Intelligently Connected.
             </span>
-          </h1>
+          </motion.h1>
 
           {/* Subheadline */}
-          <p className="mt-8 text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-            AI Company Brain transforms documents, policies, roadmaps, tickets, and company knowledge into a powerful AI assistant. Stop digging, start executing.
-          </p>
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+            }}
+            className="mt-8 text-lg sm:text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed"
+          >
+            BrainVault transforms documents, policies, roadmaps, tickets, and company knowledge into a powerful AI assistant. Stop digging, start executing.
+          </motion.p>
 
           {/* Buttons */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+            }}
+            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
+          >
             <button
               onClick={() => navigate("/login")}
               className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-8 py-4 font-semibold text-white shadow-lg shadow-violet-700/25 hover:shadow-violet-600/40 hover:scale-[1.02] transition duration-200"
@@ -231,7 +329,7 @@ export default function LandingPage() {
             >
               <Play size={16} fill="currentColor" /> Watch Demo
             </a>
-          </div>
+          </motion.div>
         </motion.div>
       </section>
 
@@ -394,7 +492,7 @@ export default function LandingPage() {
             Features built for enterprise intelligence.
           </p>
           <p className="mt-4 text-slate-400 text-base sm:text-lg">
-            Stop manually summarizing, digging through Slack, or searching Notion. AI Company Brain connects it all in one platform.
+            Stop manually summarizing, digging through Slack, or searching Notion. BrainVault connects it all in one platform.
           </p>
         </div>
 
@@ -609,7 +707,7 @@ export default function LandingPage() {
           <div className="bg-[#0d0d16]/30 border border-white/5 rounded-2xl p-6 relative flex flex-col justify-between">
             <Quote className="absolute top-6 right-6 text-white/[0.03]" size={64} />
             <p className="text-slate-300 text-sm leading-relaxed mb-6">
-              "AI Company Brain completely transformed our IT onboarding. Instead of sending engineers digging through 40-page setup PDFs, they ask the assistant. It has reduced setup questions to nearly zero."
+              "BrainVault completely transformed our IT onboarding. Instead of sending engineers digging through 40-page setup PDFs, they ask the assistant. It has reduced setup questions to nearly zero."
             </p>
             <div className="flex items-center gap-3">
               <div className="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center font-bold text-white text-xs">
@@ -673,7 +771,7 @@ export default function LandingPage() {
           </h2>
           
           <p className="mt-6 text-slate-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            Get started in under 5 minutes. Securely connect your corporate tools, configure roles, and watch AI Company Brain map the connections instantly.
+            Get started in under 5 minutes. Securely connect your corporate tools, configure roles, and watch BrainVault map the connections instantly.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -749,7 +847,7 @@ export default function LandingPage() {
         </div>
 
         <div className="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between text-xs">
-          <span>© 2026 AI Company Brain Inc. All rights reserved.</span>
+          <span>© 2026 BrainVault Inc. All rights reserved.</span>
           <div className="flex gap-4 mt-4 sm:mt-0">
             <span className="hover:text-slate-300 cursor-pointer">Twitter</span>
             <span className="hover:text-slate-300 cursor-pointer">LinkedIn</span>
@@ -758,6 +856,7 @@ export default function LandingPage() {
         </div>
       </footer>
 
-    </div>
+      </div>
+    </>
   );
 }
