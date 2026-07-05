@@ -1,0 +1,74 @@
+Name
+Sr. GW QA Integration
+
+PROFESSIONAL PROFILE
+QA Engineer with 6+ years of experience in Insurance domain (P&C) and strong expertise in integration testing using Guidewire PolicyCenter, ClaimCenter and BillingCenter.
+Have good experience in validating end-to-end system integrations, APIs (REST/SOAP), and backend data.
+Experience in Automation, Manual and performance testing using Selenium, Load Runner, J-Meter, Test NG, Quality Center.
+	Hands-on experience in setting up automation script pipeline for continuous delivery with Jenkins CI and CD.
+Experience in testing Personal Auto, Homeowners Line of Business (LOB)
+Ability to create and execute end-to-end test scenarios, including functional, regression testing in PolicyCenter.
+Adept at identifying and documenting defects, collaborating closely with development teams to resolve issues efficiently.
+Well-versed with Guidewire, JIRA, Confluence, Selenium, TestNG, GitHub, Jenkin.
+Experience working in Agile environments with strong defect management and test design capabilities.
+Excellent Interpersonal and Communication skills.
+
+PROFESSIONAL EXPERIENCE
+Texas Mutual Insurance						April 2024 to Present
+Sr. Guidewire QA Analyst	
+Roles and responsibilities:
+Designing and writing test cases based on the functional requirements ensuring coverage for all possible scenarios.
+Execute performance and load testing for integration points to validate system scalability and response times.
+	Supporting execution of integration tests, including monitoring software incidents and communicating software issues to Guidewire development.
+	Perform manual, automated and performance testing for web based and desktop-based applications.
+Detailed designing and coding integration programs including plug-ins, message sinks and Gosu programs that calls the Guidewire application APIs.
+Involved in performing manual test scenarios for various rating factors, policy adjustments, and premium calculations.
+Involved in API Performance Testing using J-Meter for the required transaction.
+Creating detailed functional test cases that cover various rating scenarios for auto and homeowners’ insurance, ensuring that modernized rating engines calculate premiums accurately based on updated rules.
+Developing Gosu test cases (GTest) for integrations.
+Designing and implementing automation scripts using tools like Selenium, JUnit, or TestNG to automate the testing of policy form generation and validation processes.
+Planning integration testing of customer solutions.
+Develop Automation Scripts, Execution and Analysis Test Results.
+Developing and maintaining automated test scripts using tools like Selenium, TestNG, or Guidewire-specific automation frameworks.
+Collaborate with developers, business analysts, and middleware teams to resolve integration issues.
+Developing automated test scripts for regression testing on PolicyCenter and ClaimCenter.
+Ensuring that the coverage rules and calculations, including deductibles, limits, and premiums, are accurately reflected in the system.
+
+Guideone Insurance						Feb 2022 – Apr 2024
+Guidewire QA Analyst
+
+Roles and responsibilities:
+Managed Guidewire Testing work stream through all phases of the GT Framework enablement life cycle; providing technical support from requirements and design to implementation and deployment.   
+Reduced regression defects by enhancing integration test coverage.
+Involved in Test integrations with billing systems for payment processing, Document generation services.
+Configured and validated environment-specific integration settings, including endpoints, authentication, and third-party system connectivity.
+	Developed Gosu test cases for integrations.
+Supporting execution of integration tests, including monitoring software incidents and communicating software issues to Guidewire development.
+Performed end-to-end integration testing across Guidewire PolicyCenter, BillingCenter, and external systems.
+Ensured all policy forms, endorsements, and declarations meet legal and regulatory standards for personal lines auto insurance.
+Automated repetitive test cases using available tools to optimize the testing process and reduce execution time.
+Performed system, regression, Data Migration & Data Analytical Testing, and performance testing in Test and UAT environments.
+Writing Test Cases for Guidewire PolicyCenter functionalities, Policy Submissions, Policy Changes, Policy renewals, Policy Cancellations, Policy Reinstatements, Policy Rewrites and Policy Reissues.
+Designing and creating automation frameworks using Selenium WebDriver, Grid and TestNG.
+
+QBE Insurance						Feb 2020 - Jan 2022
+Guidewire Test Analyst
+
+Roles and responsibilities:
+Executed manual test cases in Guidewire PolicyCenter and ClaimCenter to verify the accuracy of policy issuance, endorsements, renewals, and claims processes for personal auto insurance.
+Performed functional, regression, and system testing on PolicyCenter and ClaimCenter modules related to auto insurance.
+Involved in automation framework for Guidewire applications PolicyCenter using Selenium page object model for personal lines of business.
+Collaborated with developers and configuration teams to reproduce issues and validate fixes, ensuring high-quality deliverables.
+Identified, logged, and tracked defects using JIRA, ensuring proper documentation with logs and screenshots.
+Conducted regression testing on existing functionalities whenever new coverages or changes are introduced to ensure that no existing features are broken due to the changes.
+Worked on front-end testing. Java with Selenium WebDriver.
+Tested various personal auto insurance coverage scenarios, such as liability coverage, comprehensive coverage, collision coverage, and optional coverages like uninsured/underinsured motorist.
+Documented test results, including pass/fail status, defects, and retest outcomes.
+Collaborated with development and business teams to analyze integration requirements and identify edge cases.
+Provided detailed test reports to stakeholders, highlighting critical issues that could impact coverage offerings or user experience.
+
+Areas of expertise
+Guidewire Tools: Guidewire PolicyCenter, Guidewire ClaimCenter, Guidewire BillingCenter, Guidewire Studio
+Languages: Java, Gosu, JavaScript, HTML, XML
+Database - SQL Server, MS SQL
+Other tools: Selenium, TestNG, JMeter, Postman, GitHub- Code, Jenkin- CI/CD, Build & Deploy, Atlassian Jira- Test Management, Soap & Rest web services – Batches, Event messaging & GW configurations.

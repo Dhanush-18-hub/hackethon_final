@@ -62,10 +62,10 @@ export default function Analytics() {
       />
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard title="Queries Today" value="1.8K" trend="+24%" icon={LineChartIcon} />
-        <MetricCard title="Document Growth" value="184" trend="+36 month" icon={FileText} accent="indigo" />
-        <MetricCard title="Departments" value="12" trend="8 active daily" icon={Database} accent="blue" />
-        <MetricCard title="Usage Health" value="92%" trend="+5 pts" icon={BarChart3} accent="purple" />
+        <MetricCard title="Total Queries" value={analytics.metrics[0].value} trend={analytics.metrics[0].change} icon={LineChartIcon} />
+        <MetricCard title="Total Uploads" value={analytics.metrics[1].value} trend={analytics.metrics[1].change} icon={FileText} accent="indigo" />
+        <MetricCard title="Active Users" value={analytics.metrics[2].value} trend={analytics.metrics[2].change} icon={Database} accent="blue" />
+        <MetricCard title="Knowledge Sources" value={analytics.metrics[3].value} trend={analytics.metrics[3].change} icon={BarChart3} accent="purple" />
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">

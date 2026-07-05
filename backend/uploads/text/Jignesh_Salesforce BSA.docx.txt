@@ -1,0 +1,86 @@
+                                                                                                                                                                   
+                                                                                            
+Jigneshkumar Patel 
++1 872-985-1024 | Carol Stream, IL 60188
+Jigneshmpatel1988@gmail.com
+
+SALESFORCE BUSINESS ANALYST | ADMINISTRATOR
+Results-driven Salesforce professional with 10+ years of IT experience and 9+ years in Salesforce CRM, specializing in Sales Cloud, Service Cloud, CPQ, and Experience Cloud. Proven track record of delivering scalable solutions, improving operational efficiency, and driving user adoption. Strong expertise in Agile delivery, stakeholder management, and end-to-end CRM implementations.
+CORE COMPETENCIES
+Salesforce Business Analysis (BRD, FRD, User Stories, UAT)
+Salesforce Administration & Configuration
+Sales Cloud | Service Cloud | Experience Cloud | CPQ (Apttus)
+Flows, Validation Rules, Approval Processes, Automation
+Security Model (Profiles, Roles, Permission Sets, FLS)
+Integrations (REST/SOAP APIs, Middleware, Zuora)
+Reporting, Dashboards & CRM Analytics
+Agile/Scrum, JIRA, Sprint Planning
+CI/CD (SFDX, Git, Azure DevOps)
+Data Migration, Data Quality & Governance
+TECHNICAL SKILLS
+CERTIFICATIONS
+Salesforce Certified Business Analyst
+Salesforce Certified Administrator (ADM 201)
+Salesforce Certified Platform App Builder
+Salesforce Certified Platform Developer I
+PROFESSIONAL EXPERIENCE
+Nokia – Naperville, IL
+Senior Salesforce Business Analyst / Administrator
+Mar 2019 – Mar 2026
+Led end-to-end Salesforce implementations across Sales Cloud, Service Cloud, Field Service, CPQ, and OmniStudio.
+Gathered requirements and translated them into user stories, process maps, and functional designs, ensuring Agile alignment.
+Designed and implemented Flows and automation, reducing manual effort and improving operational efficiency.
+Configured Service Cloud (Case Management, Omni-Channel, SLAs, Entitlements), improving resolution time and service performance.
+Managed Salesforce security model, ensuring compliance and data governance.
+Delivered Einstein AI capabilities, improving: First-contact resolution by 20%, Case handling time by 25%
+Built dashboards and analytics, improving team productivity by 15–20%.
+Led UAT cycles, release management, and CI/CD deployments using SFDX and Azure DevOps.
+Provided L2/L3 production support, reducing incidents and improving system stability.
+
+Barclays – Piscataway, NJ
+Salesforce Business Systems Analyst / Administrator
+Nov 2017 – Jan 2019
+Led requirements gathering for banking and financial services workflows, ensuring compliance with regulatory standards.
+Configured Service Cloud (SLAs, Escalations, Omni-Channel) achieving 95%+ SLA compliance.
+Built automation using Flows, Workflow Rules, and Approval Processes for credit and service operations.
+Managed security and compliance frameworks, ensuring audit readiness.
+Supported integrations with banking systems via REST/SOAP APIs.
+Maintained 99.9% system uptime through proactive monitoring and optimization.
+Delivered UAT coordination and production support, resolving 98% of incidents within SLA.
+
+InComm – Alpharetta, GA
+Salesforce Business Analyst
+Jun 2016 – Oct 2017
+Conducted requirements gathering, gap analysis, and process mapping for CRM and payment workflows.
+Authored BRD/FRD and user stories, improving clarity and delivery efficiency.
+Designed Salesforce data models supporting customer lifecycle and transaction tracking.
+Collaborated on integrations with Zuora and payment platforms.
+
+BUNN Coffee Maker – Springfield, IL
+Business Analyst
+Aug 2015 – May 2016
+Created process maps, BRDs, and functional documentation for CRM initiatives.
+Translated business requirements into user stories and workflows.
+Supported CRM enhancements and automation initiatives.
+Delivered training materials and documentation to improve adoption.
+EDUCATION
+Master of Science: Information Technology
+Campbellsville University – Campbellsville, KY
+
+MBA: Information Systems
+DeVry University – Atlanta, GA
+
+Bachelor’s Degree: Electrical Engineering
+HNGU University – Gujarat, INDIA
+
+Salesforce Platforms | Salesforce CRM, Sales Cloud, Service Cloud, Field Service, Experience Cloud, Marketing Cloud
+Apex & Backend Development | Apex Classes, Triggers, Batch, Queueable & Scheduled Jobs, SOQL, Governor Limit Optimization
+Salesforce Automation | Flows, Approval Processes, Validation Rules, Assignment Rules
+Salesforce CPQ & Industry Solutions | Salesforce CPQ (Apttus), Product Configuration, Pricing, Quoting, Contract Lifecycle Management, Omni Studio, Industry-Specific CRM Solutions
+Integration & APIs | REST/SOAP APIs, Middleware Integrations, System Integrations
+Security & Compliance | Salesforce Security, Profiles, Permission Sets, Permission Set Groups, Role Hierarchy, Sharing Rules, FLS, OAuth, SSO, IAM, Data Governance, Regulatory Compliance, Audit Readiness
+Data Management | Data Loader, Import Wizard, Data Migration, Deduplication, Data Validation, Mass Transfer
+Reporting & Analytics | Reports, Dashboards, Analytics, Real-Time Insights, KPI Tracking
+DevOps & Deployment | SFDX, Git, Bitbucket, Azure DevOps, CI/CD Pipelines, Automated Deployments, Sandbox Management (Dev, QA, UAT, Full), Release Management, Change Sets
+Project & Support Tools | ServiceNow (ITSM), Incident Management, SLA Adherence, Root Cause Analysis, JIRA, Agile/Scrum, Sprint Planning, Backlog Grooming, Defect Tracking
+Documentation & BA Skills | UAT, Test Scenario Preparation, Functional Testing, Regression Testing, End-User Training, User Guides, Documentation, BRD, FRD, Functional Specifications, Stakeholder Workshops, Process Mapping, Current-State & Future-State Analysis, Requirements Gathering, Gap Analysis, Impact Assessments, Business Process Modeling (Visio, Lucid chart)

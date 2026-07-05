@@ -8,6 +8,8 @@ import type {
 
 const wait = (ms = 450) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
+const API_BASE = `http://${window.location.hostname === "localhost" ? "127.0.0.1" : (window.location.hostname || "127.0.0.1")}:5000`;
+
 export const mockDocuments: CompanyDocument[] = [
   {
     id: "doc-1",
@@ -54,6 +56,8 @@ export const mockDocuments: CompanyDocument[] = [
     source: "SharePoint",
   },
 ];
+
+let currentDocuments = [...mockDocuments];
 
 export const mockMessages: Message[] = [
   {
@@ -193,7 +197,7 @@ export async function uploadDocument(
   formData.append("file", file);
 
   const response = await fetch(
-    "http://localhost:5000/upload",
+    `${API_BASE}/upload`,
     {
       method: "POST",
       body: formData,
@@ -211,7 +215,7 @@ export async function uploadDocument(
     ? (extension as CompanyDocument["type"])
     : "TXT";
 
-  return {
+  const doc: CompanyDocument = {
     id: `doc-${Date.now()}`,
     name: data.filename,
     type,
@@ -225,13 +229,17 @@ export async function uploadDocument(
     progress: 100,
     source: "Upload",
   };
+
+  currentDocuments = [doc, ...currentDocuments];
+  return doc;
 }
 export async function askBrain(
-  prompt: string
-): Promise<Message> {
+  prompt: string,
+  conversationId?: string
+): Promise<Message & { conversation_id?: string }> {
 
   const response = await fetch(
-    "http://localhost:5000/chat",
+    `${API_BASE}/chat`,
     {
       method: "POST",
       headers: {
@@ -239,6 +247,7 @@ export async function askBrain(
       },
       body: JSON.stringify({
         question: prompt,
+        conversation_id: conversationId,
       }),
     }
   );
@@ -254,15 +263,90 @@ export async function askBrain(
       minute: "2-digit",
     }),
     sources: data.sources || [],
+    conversation_id: data.conversation_id,
   };
+}
+
+export async function getLiveCounts(): Promise<{ queries: number; uploads: number }> {
+  const response = await fetch(`${API_BASE}/analytics`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch live counts.");
+  }
+  return response.json();
 }
 
 export async function getAnalytics(): Promise<Analytics> {
   await wait(350);
-  return mockAnalytics;
+  try {
+    const live = await getLiveCounts();
+    return {
+      ...mockAnalytics,
+      metrics: [
+        { label: "Queries", value: live.queries.toString(), change: "+24%", trend: "up" },
+        { label: "Uploads", value: live.uploads.toString(), change: "+18%", trend: "up" },
+        { label: "Active Users", value: "286", change: "+9%", trend: "up" },
+        { label: "Knowledge Sources", value: live.uploads.toString(), change: "Stable", trend: "flat" },
+      ],
+    };
+  } catch {
+    return mockAnalytics;
+  }
 }
 
 export async function getDocuments(): Promise<CompanyDocument[]> {
-  await wait(300);
-  return mockDocuments;
+  const response = await fetch(`${API_BASE}/documents`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch documents.");
+  }
+  return response.json();
+}
+
+export async function syncKnowledge(): Promise<{ status: string; message: string; synced_files: string[] }> {
+  const response = await fetch(`${API_BASE}/sync`, {
+    method: "POST",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to sync company knowledge.");
+  }
+  return response.json();
+}
+
+export async function deleteDocument(id: string): Promise<void> {
+  const response = await fetch(`${API_BASE}/documents/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to delete document.");
+  }
+}
+
+export interface Conversation {
+  id: string;
+  title: string;
+  created_at: string;
+}
+
+export async function getConversations(): Promise<Conversation[]> {
+  const response = await fetch(`${API_BASE}/conversations`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch conversations.");
+  }
+  return response.json();
+}
+
+export async function getConversationMessages(id: string): Promise<Message[]> {
+  const response = await fetch(`${API_BASE}/conversations/${encodeURIComponent(id)}/messages`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch conversation messages.");
+  }
+  return response.json();
+}
+
+export async function deleteConversation(id: string): Promise<void> {
+  const response = await fetch(`${API_BASE}/conversations/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to delete conversation.");
+  }
 }

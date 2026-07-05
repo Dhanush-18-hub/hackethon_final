@@ -14,7 +14,8 @@ import Button from "../components/common/Button";
 import Card from "../components/common/Card";
 import MetricCard from "../components/dashboard/MetricCard";
 import PageHeader from "../components/dashboard/PageHeader";
-import { getDocuments, uploadDocument } from "../services/api";
+import { getDocuments, uploadDocument, deleteDocument } from "../services/api";
+import { useNotification } from "../context/NotificationContext";
 import type { CompanyDocument } from "../types";
 
 function documentTone(status: CompanyDocument["status"]) {
@@ -28,13 +29,29 @@ function DocumentIcon({ type }: { type: CompanyDocument["type"] }) {
   return <FileText size={19} className="text-violet-300" />;
 }
 
-const categories = [
-  ["All Knowledge", "184"],
-  ["Finance", "42"],
-  ["Product", "36"],
-  ["Support", "51"],
-  ["HR & Legal", "28"],
-];
+function getDocumentCategory(doc: CompanyDocument): string {
+  if (["Finance", "Product", "Support", "HR & Legal"].includes(doc.owner)) {
+    return doc.owner;
+  }
+  if (doc.owner === "Security") {
+    return "HR & Legal";
+  }
+
+  const name = doc.name.toLowerCase();
+  if (name.includes("finance") || name.includes("revenue") || name.includes("salary") || name.includes("budget") || name.includes("comp") || name.includes("operations")) {
+    return "Finance";
+  }
+  if (name.includes("product") || name.includes("engineering") || name.includes("technical") || name.includes("architecture") || name.includes("cpp") || name.includes("notes") || name.includes("code") || name.includes("playbook")) {
+    return "Product";
+  }
+  if (name.includes("support") || name.includes("faq") || name.includes("customer") || name.includes("guide") || name.includes("manual")) {
+    return "Support";
+  }
+  if (name.includes("hr") || name.includes("legal") || name.includes("policy") || name.includes("employee") || name.includes("roster") || name.includes("resume") || name.includes("compliance") || name.includes("leave") || name.includes("contract")) {
+    return "HR & Legal";
+  }
+  return "Product";
+}
 
 export default function Documents() {
   const [documents, setDocuments] = useState<CompanyDocument[]>([]);
@@ -42,59 +59,81 @@ export default function Documents() {
   const [filter, setFilter] = useState<"All" | CompanyDocument["status"]>("All");
   const [category, setCategory] = useState("All Knowledge");
   const [isDragging, setIsDragging] = useState(false);
+  const { addNotification } = useNotification();
 
   useEffect(() => {
     getDocuments().then(setDocuments);
   }, []);
 
+  const categories = useMemo(() => {
+    let financeCount = 0;
+    let productCount = 0;
+    let supportCount = 0;
+    let hrLegalCount = 0;
+
+    documents.forEach((doc) => {
+      const cat = getDocumentCategory(doc);
+      if (cat === "Finance") financeCount++;
+      else if (cat === "Product") productCount++;
+      else if (cat === "Support") supportCount++;
+      else if (cat === "HR & Legal") hrLegalCount++;
+    });
+
+    return [
+      ["All Knowledge", documents.length.toString()],
+      ["Finance", financeCount.toString()],
+      ["Product", productCount.toString()],
+      ["Support", supportCount.toString()],
+      ["HR & Legal", hrLegalCount.toString()],
+    ];
+  }, [documents]);
+
+  const fileTypeCounts = useMemo(() => {
+    let pdf = 0;
+    let docx = 0;
+    let csv = 0;
+    let txt = 0;
+
+    documents.forEach((doc) => {
+      const ext = doc.type.toUpperCase();
+      if (ext === "PDF") pdf++;
+      else if (ext === "DOCX") docx++;
+      else if (ext === "CSV") csv++;
+      else if (ext === "TXT") txt++;
+    });
+
+    return { pdf, docx, csv, txt };
+  }, [documents]);
+
   const filteredDocuments = useMemo(() => {
     return documents.filter((document) => {
       const matchesQuery = document.name.toLowerCase().includes(query.toLowerCase());
       const matchesFilter = filter === "All" || document.status === filter;
-      return matchesQuery && matchesFilter;
+      const docCat = getDocumentCategory(document);
+      const matchesCategory = category === "All Knowledge" || docCat === category;
+      return matchesQuery && matchesFilter && matchesCategory;
     });
-  }, [documents, filter, query]);
+  }, [documents, filter, query, category]);
 
   async function handleFiles(files: FileList | null) {
-  if (!files?.length) return;
+    if (!files?.length) return;
 
-  try {
+    try {
+      await Promise.all(
+        Array.from(files).map(async (file) => {
+          await uploadDocument(file);
+          addNotification("Document Uploaded", `Successfully indexed '${file.name}' into the vector core.`);
+        })
+      );
 
-    const uploaded = await Promise.all(
-      Array.from(files).map(async (file) => {
-
-        const formData = new FormData();
-
-        formData.append("file", file);
-
-        const response = await fetch(
-          "http://localhost:5000/upload",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const data = await response.json();
-
-        console.log("Uploaded:", data);
-
-        return uploadDocument(file);
-      })
-    );
-
-    setDocuments((current) => [...uploaded, ...current]);
-
-    alert("Files uploaded successfully");
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert("Upload failed");
-
+      const freshDocs = await getDocuments();
+      setDocuments(freshDocs);
+    } catch (error) {
+      console.error(error);
+      addNotification("Upload Failed", "An error occurred during document upload.");
+      alert("Upload failed");
+    }
   }
-}
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     void handleFiles(event.target.files);
@@ -149,10 +188,10 @@ export default function Documents() {
       </section>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard title="PDF" value="96" trend="+14 indexed" icon={FileText} accent="violet" />
-        <MetricCard title="DOCX" value="44" trend="+6 indexed" icon={FileText} accent="indigo" />
-        <MetricCard title="CSV" value="31" trend="+4 analyzed" icon={FileSpreadsheet} accent="blue" />
-        <MetricCard title="TXT" value="13" trend="stable" icon={FileText} accent="purple" />
+        <MetricCard title="PDF" value={fileTypeCounts.pdf.toString()} trend={`${fileTypeCounts.pdf} indexed`} icon={FileText} accent="violet" />
+        <MetricCard title="DOCX" value={fileTypeCounts.docx.toString()} trend={`${fileTypeCounts.docx} indexed`} icon={FileText} accent="indigo" />
+        <MetricCard title="CSV" value={fileTypeCounts.csv.toString()} trend={`${fileTypeCounts.csv} analyzed`} icon={FileSpreadsheet} accent="blue" />
+        <MetricCard title="TXT" value={fileTypeCounts.txt.toString()} trend={`${fileTypeCounts.txt} indexed`} icon={FileText} accent="purple" />
       </div>
 
       <Card className="p-6">
@@ -255,11 +294,13 @@ export default function Documents() {
                   <td className="py-4 text-right">
                     <Button
                       variant="ghost"
-                      onClick={() =>
+                      onClick={async () => {
+                        await deleteDocument(document.id);
                         setDocuments((current) =>
-                          current.filter((item) => item.id !== document.id),
-                        )
-                      }
+                          current.filter((item) => item.id !== document.id)
+                        );
+                        addNotification("Document Deleted", `Removed '${document.name}' from the knowledge base.`);
+                      }}
                     >
                       <Trash2 size={16} />
                     </Button>

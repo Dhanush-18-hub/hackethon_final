@@ -3,6 +3,7 @@ import { Bell, ChevronDown, Menu, Search, LogOut } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
 import { sidebarItems } from "./SidebarData";
+import { useNotification } from "../../context/NotificationContext";
 
 interface NavbarProps {
   onMenuClick: () => void;
@@ -12,6 +13,8 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const { notifications, unreadCount, markAllAsRead, markAsRead } = useNotification();
 
   const currentPage =
     sidebarItems.find((item) => item.path === location.pathname)?.title ?? "Home";
@@ -76,13 +79,64 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
-          <button
-            type="button"
-            className="relative rounded-2xl border border-white/10 bg-[#111118] p-2.5 text-zinc-200 transition hover:border-violet-400/50 hover:bg-white/[0.1] light:border-slate-200 light:bg-white light:text-slate-700"
-          >
-            <Bell size={18} />
-            <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-violet-400" />
-          </button>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsNotificationsOpen(!isNotificationsOpen)}
+              className="relative rounded-2xl border border-white/10 bg-[#111118] p-2.5 text-zinc-200 transition hover:border-violet-400/50 hover:bg-white/[0.1] light:border-slate-200 light:bg-white light:text-slate-700 cursor-pointer"
+            >
+              <Bell size={18} />
+              {unreadCount > 0 && (
+                <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-violet-400 animate-pulse" />
+              )}
+            </button>
+
+            {isNotificationsOpen && (
+              <>
+                <div
+                  className="fixed inset-0 z-30"
+                  onClick={() => setIsNotificationsOpen(false)}
+                />
+                <div className="absolute right-0 mt-2 w-80 rounded-2xl border border-white/10 bg-[#0d0d16] p-4 shadow-2xl z-40 backdrop-blur-xl light:border-slate-200 light:bg-white">
+                  <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-2 light:border-slate-100">
+                    <h3 className="text-sm font-semibold text-white light:text-slate-900">Notifications</h3>
+                    {unreadCount > 0 && (
+                      <button
+                        onClick={markAllAsRead}
+                        className="text-xs text-violet-400 hover:text-violet-300 font-medium transition cursor-pointer"
+                      >
+                        Mark all as read
+                      </button>
+                    )}
+                  </div>
+                  <div className="max-h-60 overflow-y-auto space-y-2 pr-1">
+                    {notifications.length === 0 ? (
+                      <p className="text-xs text-zinc-500 light:text-slate-400 py-4 text-center">All caught up!</p>
+                    ) : (
+                      notifications.map((notif) => (
+                        <button
+                          key={notif.id}
+                          type="button"
+                          onClick={() => markAsRead(notif.id)}
+                          className={`w-full p-2.5 rounded-xl transition cursor-pointer text-left border ${
+                            notif.read
+                              ? "bg-transparent border-transparent hover:bg-white/[0.03] light:hover:bg-slate-50"
+                              : "bg-violet-500/5 border-violet-500/10 hover:bg-violet-500/10 light:bg-violet-500/5 light:border-violet-500/5"
+                          }`}
+                        >
+                          <div className="flex justify-between items-start gap-2">
+                            <p className="text-xs font-semibold text-white light:text-slate-900">{notif.title}</p>
+                            <span className="text-[10px] text-zinc-500 light:text-slate-400 shrink-0">{notif.time}</span>
+                          </div>
+                          <p className="text-[11px] text-zinc-400 light:text-slate-600 mt-1">{notif.description}</p>
+                        </button>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
 
           {/* User Profile Dropdown Button */}
           <div className="relative">
