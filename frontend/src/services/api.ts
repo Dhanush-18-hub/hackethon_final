@@ -55,6 +55,8 @@ export const mockDocuments: CompanyDocument[] = [
   },
 ];
 
+let currentDocuments = [...mockDocuments];
+
 export const mockMessages: Message[] = [
   {
     id: "msg-1",
@@ -211,7 +213,7 @@ export async function uploadDocument(
     ? (extension as CompanyDocument["type"])
     : "TXT";
 
-  return {
+  const doc: CompanyDocument = {
     id: `doc-${Date.now()}`,
     name: data.filename,
     type,
@@ -225,10 +227,14 @@ export async function uploadDocument(
     progress: 100,
     source: "Upload",
   };
+
+  currentDocuments = [doc, ...currentDocuments];
+  return doc;
 }
 export async function askBrain(
-  prompt: string
-): Promise<Message> {
+  prompt: string,
+  conversationId?: string
+): Promise<Message & { conversation_id?: string }> {
 
   const response = await fetch(
     "http://localhost:5000/chat",
@@ -239,6 +245,7 @@ export async function askBrain(
       },
       body: JSON.stringify({
         question: prompt,
+        conversation_id: conversationId,
       }),
     }
   );
@@ -254,6 +261,7 @@ export async function askBrain(
       minute: "2-digit",
     }),
     sources: data.sources || [],
+    conversation_id: data.conversation_id,
   };
 }
 
@@ -263,6 +271,59 @@ export async function getAnalytics(): Promise<Analytics> {
 }
 
 export async function getDocuments(): Promise<CompanyDocument[]> {
-  await wait(300);
-  return mockDocuments;
+  const response = await fetch("http://localhost:5000/documents");
+  if (!response.ok) {
+    throw new Error("Failed to fetch documents.");
+  }
+  return response.json();
+}
+
+export async function syncKnowledge(): Promise<{ status: string; message: string; synced_files: string[] }> {
+  const response = await fetch("http://localhost:5000/sync", {
+    method: "POST",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to sync company knowledge.");
+  }
+  return response.json();
+}
+
+export async function deleteDocument(id: string): Promise<void> {
+  const response = await fetch(`http://localhost:5000/documents/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to delete document.");
+  }
+}
+
+export interface Conversation {
+  id: string;
+  title: string;
+  created_at: string;
+}
+
+export async function getConversations(): Promise<Conversation[]> {
+  const response = await fetch("http://localhost:5000/conversations");
+  if (!response.ok) {
+    throw new Error("Failed to fetch conversations.");
+  }
+  return response.json();
+}
+
+export async function getConversationMessages(id: string): Promise<Message[]> {
+  const response = await fetch(`http://localhost:5000/conversations/${encodeURIComponent(id)}/messages`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch conversation messages.");
+  }
+  return response.json();
+}
+
+export async function deleteConversation(id: string): Promise<void> {
+  const response = await fetch(`http://localhost:5000/conversations/${encodeURIComponent(id)}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to delete conversation.");
+  }
 }

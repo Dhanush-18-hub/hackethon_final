@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { BrainCircuit, X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { sidebarItems } from "./SidebarData";
 import { clsx } from "clsx";
+import { syncKnowledge } from "../../services/api";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -9,6 +11,25 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [sourcesCount, setSourcesCount] = useState(184);
+  const [lastSyncTime, setLastSyncTime] = useState("4 minutes ago");
+
+  const handleSync = async () => {
+    setIsSyncing(true);
+    try {
+      const res = await syncKnowledge();
+      if (res.synced_files && res.synced_files.length > 0) {
+        setSourcesCount((prev) => prev + res.synced_files.length);
+      }
+      setLastSyncTime("Just now");
+    } catch (e) {
+      console.error(e);
+      alert("Failed to sync. Please ensure the backend is running.");
+    } finally {
+      setIsSyncing(false);
+    }
+  };
   return (
     <>
       <button
@@ -33,8 +54,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               <BrainCircuit className="text-white" size={24} />
             </div>
             <div>
-              <h1 className="text-lg font-bold text-white light:text-slate-950">
-                AI Company Brain
+              <h1 className="text-lg font-bold">
+                <span className="text-white light:text-black">Brain</span>
+                <span className="text-violet-500">Vault</span>
               </h1>
               <p className="text-xs text-zinc-400 light:text-slate-500">
                 Enterprise AI OS
@@ -78,19 +100,24 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <div className="p-4">
           <div className="rounded-3xl border border-violet-400/20 bg-violet-500/10 p-4">
             <div className="flex items-center gap-2">
-              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-lg shadow-emerald-500/50" />
+              <span className={clsx(
+                "h-2.5 w-2.5 rounded-full shadow-lg",
+                isSyncing ? "bg-amber-400 shadow-amber-500/50 animate-pulse" : "bg-emerald-400 shadow-emerald-500/50"
+              )} />
               <span className="text-sm font-semibold text-white light:text-slate-950">
-                Brain Online
+                {isSyncing ? "Syncing..." : "Brain Online"}
               </span>
             </div>
             <p className="mt-2 text-xs leading-5 text-zinc-400 light:text-slate-500">
-              184 sources synced. Last vector refresh completed 4 minutes ago.
+              {sourcesCount} sources synced. Last Vector refresh completed {lastSyncTime}.
             </p>
             <button
               type="button"
-              className="mt-4 w-full rounded-2xl bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-violet-600 light:bg-slate-100 light:text-slate-800"
+              disabled={isSyncing}
+              onClick={handleSync}
+              className="mt-4 w-full rounded-2xl bg-white/10 px-3 py-2 text-sm font-semibold text-white transition hover:bg-violet-600 disabled:opacity-50 disabled:cursor-not-allowed light:bg-slate-100 light:text-slate-800"
             >
-              Run Sync
+              {isSyncing ? "Syncing..." : "Run Sync"}
             </button>
           </div>
         </div>

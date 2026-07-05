@@ -1,0 +1,119 @@
+ACUITY GLOBAL TECHNOLOGIES
+Global Enterprise Architecture, Policy Parameters & Roster Database (2026)
+1. Company Overview & Legal Identity
+Entity Name: Acuity Global Technologies Inc.
+Industry: Artificial Intelligence, Cloud Infrastructure &
+SaaS Solutions
+Founded: May 12, 2018
+Global Headcount: 150 Full-Time Employees
+HQ Address: 500 Innovation Way, Suite 100, San
+Francisco, CA 94105
+Website: www.acuityglobal.fake
+Fiscal Year: January 1 – December 31
+Annual Run Rate: $42.5M USD
+2. Global Branch Network
+BRANCH
+CODE
+LOCATION /
+REGION BRANCH FOCUS LOCAL
+HEADCOUNT
+REGIONAL
+DIRECTOR
+AGT-US-HQ San Francisco, USA
+(HQ)
+Executive, Core Engineering,
+Legal
+65 Employees Sarah Jenkins
+(Interim)
+AGT-EU-LON London, United
+Kingdom
+Sales, Marketing & EMEA
+Compliance
+35 Employees Marcus Vance
+AGT-APAC-
+HYD
+Hyderabad, India Data Science, AI Engine & QA
+Systems
+32 Employees Dr. Aris Thorne
+AGT-CAN-TORToronto, Canada Product Design & Cloud
+Operations
+18 Employees Yuki Tanaka
+3. Annual Leave & Time-Off Policy Matrix
+Acuity Global operating policies mandate an aligned time-off package calculated based on calendar years:
+LEAVE CATEGORY DAYS
+ALLOTTED ROLLOVER RULES / POLICY DETAILS APPROVAL
+SLA
+Paid Time Off (PTO) /
+Casual
+20 Days Max 5 days roll over to next calendar year; remainder
+expires.
+48 Hours Notice
+Sick & Wellness Leave 10 Days Does not roll over. Requires medical certificate if >3
+consecutive days.
+Immediate / Day-
+of
+Parental Leave 60 Days Fully paid for primary caregivers. Eligible after 6 months
+tenure.
+30 Days Prior
+Public / Gazette
+Holidays
+11 Days Varies locally based on regional branch assignment.Pre-scheduled
+Acuity Global Technologies • Global Operations & Employee Policy Master Matrix Page 1 of 2
+4. Department Distribution & Comp Structures
+DEPARTMENT PRIMARY
+LOCATION HEADCOUNTAVG
+SALARY CORE RESPONSIBILITIES
+Engineering &
+Product
+San Francisco /
+Remote
+54 $120,000 Core backend infrastructure, UI/UX, and SaaS
+scaling.
+Sales & MarketingLondon / Hybrid 38 $95,000 B2B customer acquisition, enterprise pipelines,
+branding.
+Data Science & AIHyderabad /
+Remote
+22 $140,000 Large language models, deep learning
+framework deployments.
+Finance &
+Operations
+San Francisco
+(HQ)
+16 $105,000 Corporate accounting, legal auditing workflows,
+financial projection.
+Human ResourcesDistributed 12 $85,000 Talent acquisition, international compliance,
+payroll execution.
+Legal &
+Compliance
+London / HQ 8 $125,000 IP retention, multi-jurisdiction compliance
+framework.
+5. Representative Global Employee Directory
+EMP ID FULL NAME BRANCH
+OFFICE DEPARTMENT DESIGNATION SALARY MODALITY
+#AGT-001Sarah Jenkins AGT-US-HQ Engineering VP of Engineering $185,000 HYBRID
+#AGT-002Dr. Aris ThorneAGT-APAC-HYDData Science &
+AI
+Chief AI Officer $210,000 ON-SITE
+#AGT-014David Kim AGT-US-HQ Engineering Sr. Full-Stack
+Engineer
+$135,000 REMOTE
+#AGT-022Amara Okafor AGT-APAC-HYDData Science &
+AI
+Lead AI Architect $165,000 REMOTE
+#AGT-047Marcus Vance AGT-EU-LON Sales &
+Marketing
+Chief Revenue Officer$170,000 HYBRID
+#AGT-048Johnathan
+Downe
+AGT-EU-LON Sales &
+Marketing
+Global Account
+Director
+$125,000 REMOTE
+#AGT-089Elena Rostova AGT-US-HQ Finance Chief Financial Officer$180,000 ON-SITE
+#AGT-095James Albright AGT-CAN-TOR Human
+Resources
+HR Specialist $78,000 HYBRID
+#AGT-112Rebecca VanceAGT-EU-LON Legal General Counsel $155,000 ON-SITE
+#AGT-115Oliver Dupont AGT-EU-LON Legal Compliance Specialist$98,000 HYBRID
+Acuity Global Technologies • Global Operations & Employee Policy Master Matrix Page 2 of 2

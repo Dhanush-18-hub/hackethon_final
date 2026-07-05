@@ -14,7 +14,8 @@ import Button from "../components/common/Button";
 import Card from "../components/common/Card";
 import MetricCard from "../components/dashboard/MetricCard";
 import PageHeader from "../components/dashboard/PageHeader";
-import { getDocuments, uploadDocument } from "../services/api";
+import { getDocuments, uploadDocument, deleteDocument } from "../services/api";
+import { useNotification } from "../context/NotificationContext";
 import type { CompanyDocument } from "../types";
 
 function documentTone(status: CompanyDocument["status"]) {
@@ -42,6 +43,7 @@ export default function Documents() {
   const [filter, setFilter] = useState<"All" | CompanyDocument["status"]>("All");
   const [category, setCategory] = useState("All Knowledge");
   const [isDragging, setIsDragging] = useState(false);
+  const { addNotification } = useNotification();
 
   useEffect(() => {
     getDocuments().then(setDocuments);
@@ -56,45 +58,24 @@ export default function Documents() {
   }, [documents, filter, query]);
 
   async function handleFiles(files: FileList | null) {
-  if (!files?.length) return;
+    if (!files?.length) return;
 
-  try {
+    try {
+      await Promise.all(
+        Array.from(files).map(async (file) => {
+          await uploadDocument(file);
+          addNotification("Document Uploaded", `Successfully indexed '${file.name}' into the vector core.`);
+        })
+      );
 
-    const uploaded = await Promise.all(
-      Array.from(files).map(async (file) => {
-
-        const formData = new FormData();
-
-        formData.append("file", file);
-
-        const response = await fetch(
-          "http://localhost:5000/upload",
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const data = await response.json();
-
-        console.log("Uploaded:", data);
-
-        return uploadDocument(file);
-      })
-    );
-
-    setDocuments((current) => [...uploaded, ...current]);
-
-    alert("Files uploaded successfully");
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert("Upload failed");
-
+      const freshDocs = await getDocuments();
+      setDocuments(freshDocs);
+    } catch (error) {
+      console.error(error);
+      addNotification("Upload Failed", "An error occurred during document upload.");
+      alert("Upload failed");
+    }
   }
-}
 
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
     void handleFiles(event.target.files);
@@ -255,11 +236,13 @@ export default function Documents() {
                   <td className="py-4 text-right">
                     <Button
                       variant="ghost"
-                      onClick={() =>
+                      onClick={async () => {
+                        await deleteDocument(document.id);
                         setDocuments((current) =>
-                          current.filter((item) => item.id !== document.id),
-                        )
-                      }
+                          current.filter((item) => item.id !== document.id)
+                        );
+                        addNotification("Document Deleted", `Removed '${document.name}' from the knowledge base.`);
+                      }}
                     >
                       <Trash2 size={16} />
                     </Button>

@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="AI Company Brain"
+        eyebrow="BrainVault"
         title={`Good Morning, ${firstName}`}
         subtitle="Ask anything, find answers, or automate tasks."
         icon={Rocket}
@@ -37,14 +37,20 @@ export default function Home() {
           "Summarize support escalations",
           "Create onboarding guide",
         ]}
-        onSubmit={() => navigate("/dashboard/askbrain")}
+        onSubmit={(value) => {
+          if (value) {
+            navigate(`/dashboard/askbrain?q=${encodeURIComponent(value)}`);
+          } else {
+            navigate(`/dashboard/askbrain`);
+          }
+        }}
       />
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {suggestedPrompts.map((prompt) => {
           const Icon = prompt.icon;
           return (
-            <button key={prompt.title} type="button" onClick={() => navigate("/dashboard/askbrain")} className="text-left">
+            <button key={prompt.title} type="button" onClick={() => navigate(`/dashboard/askbrain?q=${encodeURIComponent(prompt.title)}`)} className="text-left">
               <Card interactive className="h-full p-5">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-500/15 text-violet-200 light:text-violet-700">
                   <Icon size={21} />

@@ -9,7 +9,7 @@ genai.configure(
 )
 
 model = genai.GenerativeModel(
-    "gemini-2.5-flash"
+    "gemini-flash-lite-latest"
 )
 
 def ask_gemini(prompt):

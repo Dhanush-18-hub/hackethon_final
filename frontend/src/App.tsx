@@ -12,39 +12,42 @@ import Admin from "./pages/Admin";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./components/common/ProtectedRoute";
+import { NotificationProvider } from "./context/NotificationContext";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
+    <NotificationProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
 
-        {/* Protected Dashboard Routes */}
-        <Route
-          path="/dashboard/*"
-          element={
-            <ProtectedRoute>
-              <DashboardLayout>
-                <Routes>
-                  <Route path="" element={<Navigate to="home" replace />} />
-                  <Route path="home" element={<Home />} />
-                  <Route path="askbrain" element={<AskBrain />} />
-                  <Route path="documents" element={<Documents />} />
-                  <Route path="knowledge" element={<KnowledgeGraph />} />
-                  <Route path="tasks" element={<Tasks />} />
-                  <Route path="analytics" element={<Analytics />} />
-                  <Route path="admin" element={<Admin />} />
-                </Routes>
-              </DashboardLayout>
-            </ProtectedRoute>
-          }
-        />
+          {/* Protected Dashboard Routes */}
+          <Route
+            path="/dashboard/*"
+            element={
+              <ProtectedRoute>
+                <DashboardLayout>
+                  <Routes>
+                    <Route path="" element={<Navigate to="home" replace />} />
+                    <Route path="home" element={<Home />} />
+                    <Route path="askbrain" element={<AskBrain />} />
+                    <Route path="documents" element={<Documents />} />
+                    <Route path="knowledge" element={<KnowledgeGraph />} />
+                    <Route path="tasks" element={<Tasks />} />
+                    <Route path="analytics" element={<Analytics />} />
+                    <Route path="admin" element={<Admin />} />
+                  </Routes>
+                </DashboardLayout>
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Fallback Redirect */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Fallback Redirect */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </NotificationProvider>
   );
 }

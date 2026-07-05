@@ -157,8 +157,9 @@ export default function LandingPage() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-500 shadow-md shadow-violet-700/20">
                 <BrainCircuit className="text-white" size={20} />
               </div>
-              <span className="text-lg font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-zinc-400 bg-clip-text text-transparent">
-                AI Company Brain
+              <span className="text-lg font-bold tracking-tight">
+                <span className="text-white">Brain</span>
+                <span className="text-violet-500">Vault</span>
               </span>
             </div>
 
@@ -702,8 +703,9 @@ export default function LandingPage() {
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-indigo-500">
                 <BrainCircuit className="text-white" size={18} />
               </div>
-              <span className="text-sm font-bold tracking-tight text-white">
-                AI Company Brain
+              <span className="text-sm font-bold tracking-tight">
+                <span className="text-white">Brain</span>
+                <span className="text-violet-500">Vault</span>
               </span>
             </div>
             <p className="text-xs text-slate-500 max-w-xs leading-relaxed">

@@ -23,10 +23,11 @@ def get_company_context():
                 encoding="utf-8"
             ) as f:
 
+                context += f"--- START OF DOCUMENT: {filename} ---\n"
                 context += f.read()
-                context += "\n\n"
+                context += f"\n--- END OF DOCUMENT: {filename} ---\n\n"
 
         except:
             pass
 
-    return context[:50000]
+    return context[:1000000]
