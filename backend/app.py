@@ -5,6 +5,7 @@ import os
 from services.gemini_service import ask_gemini
 from services.pdf_service import extract_text
 from services.rag_service import get_company_context
+from services.document_count_service import SUPPORTED_EXTENSIONS, count_uploaded_documents
 import sqlite3
 
 DATABASE = "brainvault.db"
@@ -371,15 +372,18 @@ def sync_knowledge():
 def get_documents_api():
     docs = []
     if os.path.exists(UPLOAD_FOLDER):
-        for filename in os.listdir(UPLOAD_FOLDER):
+        for filename in sorted(os.listdir(UPLOAD_FOLDER)):
             filepath = os.path.join(UPLOAD_FOLDER, filename)
             if os.path.isdir(filepath):
                 continue
+            if os.path.splitext(filename)[1].lower() not in SUPPORTED_EXTENSIONS:
+                continue
+
             stats = os.stat(filepath)
             size_mb = stats.st_size / (1024 * 1024)
             size_str = f"{max(size_mb, 0.1):.1f} MB"
             ext = filename.split(".")[-1].upper() if "." in filename else "TXT"
-            
+
             import datetime
             creation_time = datetime.datetime.fromtimestamp(stats.st_mtime).strftime("%b %d, %Y")
 
@@ -465,12 +469,8 @@ def get_analytics_api():
         query_count = conn.execute("SELECT COUNT(*) FROM messages WHERE role = 'user'").fetchone()[0]
         conn.close()
         
-        upload_count = 0
-        if os.path.exists(UPLOAD_FOLDER):
-            for filename in os.listdir(UPLOAD_FOLDER):
-                if os.path.isfile(os.path.join(UPLOAD_FOLDER, filename)):
-                    upload_count += 1
-                    
+        upload_count = count_uploaded_documents(UPLOAD_FOLDER)
+
         return jsonify({
             "queries": query_count,
             "uploads": upload_count

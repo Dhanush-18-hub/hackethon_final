@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrainCircuit, X } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { sidebarItems } from "./SidebarData";
 import { clsx } from "clsx";
-import { syncKnowledge } from "../../services/api";
+import { getDocuments, syncKnowledge } from "../../services/api";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -12,8 +12,14 @@ interface SidebarProps {
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const [isSyncing, setIsSyncing] = useState(false);
-  const [sourcesCount, setSourcesCount] = useState(184);
+  const [sourcesCount, setSourcesCount] = useState(0);
   const [lastSyncTime, setLastSyncTime] = useState("4 minutes ago");
+
+  useEffect(() => {
+    getDocuments()
+      .then((docs) => setSourcesCount(docs.length))
+      .catch(console.error);
+  }, []);
 
   const handleSync = async () => {
     setIsSyncing(true);

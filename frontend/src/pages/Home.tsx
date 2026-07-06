@@ -1,4 +1,5 @@
 import { BarChart3, FileText, GitPullRequest, MessageSquare, Rocket, Search, Users } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../components/common/Card";
 import ActivityCard from "../components/dashboard/ActivityCard";
@@ -6,6 +7,7 @@ import ConversationCard from "../components/dashboard/ConversationCard";
 import MetricCard from "../components/dashboard/MetricCard";
 import PageHeader from "../components/dashboard/PageHeader";
 import PromptBox from "../components/dashboard/PromptBox";
+import { getAnalytics, getDocuments } from "../services/api";
 
 const suggestedPrompts = [
   { title: "Q2 Sales Performance", description: "Summarize wins, risks, and missed targets.", icon: BarChart3 },
@@ -16,9 +18,23 @@ const suggestedPrompts = [
 
 export default function Home() {
   const navigate = useNavigate();
+  const [documentCount, setDocumentCount] = useState(0);
 
   const fullName = localStorage.getItem("fullName") || "Priya Sharma";
   const firstName = fullName.split(" ")[0];
+
+  useEffect(() => {
+    Promise.all([getDocuments(), getAnalytics()])
+      .then(([docs, analytics]) => {
+        const liveDocCount = docs.length;
+        setDocumentCount(liveDocCount);
+        const queryValue = Number.parseInt(analytics.metrics[0]?.value ?? "0", 10) || 0;
+        if (queryValue > 0) {
+          console.info(`Live query count loaded: ${queryValue}`);
+        }
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -66,8 +82,8 @@ export default function Home() {
       </section>
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard title="Knowledge Sources" value="34" trend="+7 connected" icon={FileText} />
-        <MetricCard title="Documents Indexed" value="184" trend="+21 this week" icon={FileText} accent="indigo" />
+        <MetricCard title="Knowledge Sources" value={documentCount.toString()} trend={`${documentCount} indexed`} icon={FileText} />
+        <MetricCard title="Documents Indexed" value={documentCount.toString()} trend={`${documentCount} ready to search`} icon={FileText} accent="indigo" />
         <MetricCard title="AI Queries Today" value="1.8K" trend="+24%" icon={MessageSquare} accent="purple" />
         <MetricCard title="Active Agents" value="12" trend="4 running" icon={Rocket} accent="blue" />
       </section>
